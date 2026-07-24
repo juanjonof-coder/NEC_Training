@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NEC for EPC Electrical Designers</title>
+<style>
+:root {
+  --bg:#0e1726; --panel:#162235; --panel2:#1d2c43; --text:#eef4fb; --muted:#aebdd0;
+  --accent:#63b3ed; --good:#75d6a0; --warn:#ffd166; --border:#30445f;
+}
+* { box-sizing:border-box; }
+body { margin:0; font-family:Arial,Helvetica,sans-serif; background:var(--bg); color:var(--text); }
+header { padding:28px 32px; border-bottom:1px solid var(--border); background:linear-gradient(135deg,#162235,#0e1726); }
+header h1 { margin:0 0 8px; font-size:32px; }
+header p { margin:0; color:var(--muted); max-width:900px; line-height:1.5; }
+.app { display:grid; grid-template-columns:330px 1fr; min-height:calc(100vh - 126px); }
+aside { border-right:1px solid var(--border); padding:18px; background:#111d2d; overflow:auto; }
+main { padding:28px; overflow:auto; }
+.progress-wrap { margin-bottom:18px; }
+.progress-bar { height:10px; background:#26384f; border-radius:999px; overflow:hidden; }
+.progress-fill { height:100%; width:0; background:var(--good); transition:.25s; }
+.progress-text { color:var(--muted); font-size:13px; margin-top:7px; }
+.module-btn { width:100%; text-align:left; border:1px solid var(--border); background:var(--panel); color:var(--text);
+  padding:12px; border-radius:10px; margin-bottom:9px; cursor:pointer; }
+.module-btn:hover,.module-btn.active { background:var(--panel2); border-color:var(--accent); }
+.module-btn small { display:block; color:var(--muted); margin-top:4px; }
+.card { background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:22px; margin-bottom:18px; }
+h2 { margin-top:0; font-size:28px; }
+h3 { margin:0 0 10px; }
+p,li { line-height:1.6; }
+.muted { color:var(--muted); }
+.badge { display:inline-block; padding:5px 9px; border-radius:999px; background:#233b56; color:#cfe8ff; font-size:12px; margin-bottom:10px; }
+.lesson { border-left:4px solid var(--accent); padding-left:16px; margin:18px 0; }
+.exercise { border-left-color:var(--warn); }
+.quiz-question { margin:18px 0; padding:15px; background:#132033; border-radius:10px; }
+.quiz-question label { display:block; padding:7px 0; cursor:pointer; }
+button.action { border:0; background:var(--accent); color:#07111d; font-weight:bold; padding:11px 16px; border-radius:9px; cursor:pointer; margin-right:8px; }
+button.secondary { background:#2c405a; color:var(--text); }
+.result { margin-top:12px; font-weight:bold; }
+.checklist li { margin-bottom:7px; }
+footer { color:var(--muted); font-size:12px; padding:18px 28px 30px; }
+@media(max-width:850px) {
+  .app { grid-template-columns:1fr; }
+  aside { border-right:0; border-bottom:1px solid var(--border); max-height:340px; }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>NEC for EPC Electrical Designers</h1>
+  <p>A practical industrial design course focused on how EPC designers apply NEC requirements to single-lines, equipment layouts, cable schedules, MCCs, VFDs, transformers, control panels, hazardous locations, and vendor packages.</p>
+</header>
+<div class="app">
+  <aside>
+    <div class="progress-wrap">
+      <div class="progress-bar"><div id="progressFill" class="progress-fill"></div></div>
+      <div id="progressText" class="progress-text">0 of 15 modules completed</div>
+    </div>
+    <div id="moduleList"></div>
+  </aside>
+  <main id="content"></main>
+</div>
+<footer>
+This course paraphrases NEC concepts and references article numbers for study. It does not reproduce the NEC and is not a substitute for the adopted code, project specifications, AHJ requirements, or professional engineering judgment. Verify the NEC edition adopted for each project.
+</footer>
+<script>
+const modules = [{"id": 1, "title": "Article 110: General Requirements", "summary": "Equipment ratings, listings, interrupting ratings, working space, dedicated space, and installation conditions.", "lessons": [["110.3(B) Listing and Labeling", "Treat manufacturer instructions tied to a listing as enforceable installation requirements. Review mounting orientation, spacing, ambient limits, enclosure type, conductor range, torque, and permitted accessories.", ["Check vendor manuals during layout design.", "Record required ventilation clearances on equipment layouts.", "Do not substitute accessories unless approved for that equipment."]], ["110.9 and 110.10 Fault Duty", "The interrupting rating of protective devices must be adequate for available fault current. The equipment and protective system must also safely withstand the fault until interruption.", ["Compare available fault current with breaker or fuse interrupting rating.", "Confirm equipment SCCR, not only breaker AIC.", "Escalate when the study is preliminary or unavailable."]], ["110.26 Working and Dedicated Space", "Provide safe access and working space around equipment likely to require examination, adjustment, servicing, or maintenance while energized. Account for voltage, exposed grounded surfaces, doors, headroom, and dedicated electrical space.", ["Dimension clear working zones on room layouts.", "Coordinate door swings and opposing equipment.", "Keep piping and unrelated systems out of dedicated equipment space where required."]]], "exercise": "Review a VFD lineup with 6 in top clearance, a 45\u00b0C room, and a 65 kA fault level. Identify layout, environmental, and rating concerns.", "quiz": [["A breaker has a 35 kA interrupting rating and the calculated available fault current is 48 kA. Is it acceptable?", ["Yes", "No"], 1], ["Which item should be checked against the manufacturer's listing?", ["Only voltage", "Mounting, spacing, ambient, accessories, and torque", "Only enclosure color"], 1], ["Working-space checks belong primarily to which section?", ["110.26", "430.52", "250.122"], 0]]}, {"id": 2, "title": "Article 240: Overcurrent Protection", "summary": "Conductor protection, standard ratings, tap conductors, transformer secondary protection, and coordination implications.", "lessons": [["General Conductor Protection", "Conductors normally require protection consistent with their allowable ampacity, subject to specific allowances and equipment rules.", ["Confirm conductor ampacity after correction and adjustment.", "Check terminal temperature limitations.", "Document use of next-standard-size allowances when applicable."]], ["Tap Rules", "Tap conductors are permitted only when the applicable length, ampacity, routing, and termination conditions are satisfied.", ["Do not use 'tap' as a general label for any undersized conductor.", "Show tap length and destination OCPD.", "Coordinate routing protection with the physical layout."]], ["Selective Coordination Awareness", "The NEC may require selective coordination for certain systems. Even when not required, project specifications can demand it.", ["Distinguish code minimum from client requirement.", "Coordinate breaker trip settings with the study.", "Do not assume series ratings equal selective coordination."]]], "exercise": "Evaluate a transformer secondary feeder with no secondary main breaker and determine what information is needed before accepting it.", "quiz": [["Can any undersized feeder be called a tap conductor?", ["Yes", "No"], 1], ["What must be considered before selecting an OCPD?", ["Adjusted conductor ampacity and terminal ratings", "Only nominal load", "Only cable length"], 0]]}, {"id": 3, "title": "Article 250: Grounding and Bonding", "summary": "System grounding, bonding, equipment grounding conductors, separately derived systems, electrodes, and fault-current paths.", "lessons": [["Grounding vs Bonding", "Grounding connects a system or equipment to earth. Bonding creates a low-impedance conductive path so fault current can return to the source and operate protective devices.", ["Do not rely on earth as the effective ground-fault current path.", "Bond raceways, enclosures, and equipment as required.", "Keep neutral and equipment grounding functions distinct downstream of the bonding point."]], ["Equipment Grounding Conductors", "Size equipment grounding conductors from the rating or setting of the upstream overcurrent device, with proportional increase where ungrounded conductors are increased for voltage drop.", ["Check EGC size after upsizing phase conductors.", "Verify cable armor or raceway suitability if used as the grounding path.", "Show bonding jumpers across flexible or discontinuous sections where needed."]], ["Separately Derived Systems", "Transformers and certain generators can create separately derived systems. Their grounding and bonding arrangement must be deliberately designed.", ["Identify the system bonding jumper location.", "Size grounding electrode conductors correctly.", "Avoid multiple neutral-to-ground bonds downstream."]]], "exercise": "Sketch the grounding and bonding arrangement for a 480 V to 208Y/120 V transformer feeding a panelboard.", "quiz": [["Is soil alone an effective fault-current return path?", ["Yes", "No"], 1], ["When phase conductors are upsized for voltage drop, the EGC may also need to increase.", ["True", "False"], 0], ["A downstream neutral-ground bond can create objectionable current paths.", ["True", "False"], 0]]}, {"id": 4, "title": "Article 300: General Wiring Methods", "summary": "Physical protection, raceway continuity, penetrations, wet locations, conductor grouping, and installation fundamentals.", "lessons": [["Physical Protection and Environment", "Wiring methods must suit the physical and environmental conditions, including wet, corrosive, exposed, underground, and hazardous areas.", ["Treat underground raceways as wet locations.", "Select fittings compatible with the enclosure rating.", "Coordinate corrosion-resistant supports and hardware."]], ["Penetrations and Sealing", "Penetrations through fire-rated assemblies and boundaries require appropriate sealing systems. Some occupancies also require seals for gases or vapors.", ["Show firestopping notes on drawings.", "Coordinate wall type and rating.", "Avoid generic 'seal all penetrations' notes without specification alignment."]], ["Induced Heating and Conductor Arrangement", "AC conductors must be arranged to avoid inductive heating in ferrous enclosures and raceways.", ["Route all phase and neutral conductors of a circuit together.", "Avoid splitting phases through separate steel openings.", "Use appropriate nonmagnetic provisions where single conductors pass through metal."]]], "exercise": "Review a detail where three single-conductor phase cables enter a steel enclosure through separate holes.", "quiz": [["Are underground raceways generally treated as wet locations?", ["Yes", "No"], 0], ["Should all conductors of an AC circuit pass together through a ferrous opening?", ["Yes", "No"], 0]]}, {"id": 5, "title": "Article 310: Conductors and Ampacity", "summary": "Insulation, ampacity tables, terminal limitations, ambient correction, conductor-count adjustment, and parallel conductors.", "lessons": [["Base Ampacity", "Start with the applicable conductor ampacity table, then apply terminal-temperature limitations, ambient correction, and adjustment factors.", ["Do not size from the 90\u00b0C column unless permitted for adjustment or equipment ratings.", "Check equipment lug ratings.", "Confirm conductor material and insulation type."]], ["Adjustment and Correction", "Ambient temperature and the number of current-carrying conductors can reduce allowable ampacity.", ["Define which conductors count as current-carrying.", "Check raceway and cable grouping.", "Document the final adjusted ampacity."]], ["Parallel Conductors", "Parallel sets must meet minimum size, length, material, insulation, termination, and routing requirements.", ["Keep each set electrically equivalent.", "Use identical conductor lengths.", "Coordinate phase arrangement and raceway geometry."]]], "exercise": "Size a feeder after applying ambient correction, conductor-count adjustment, and terminal limitations.", "quiz": [["Can the 90\u00b0C column always be used as final ampacity?", ["Yes", "No"], 1], ["Parallel conductors should have equal length and characteristics.", ["True", "False"], 0]]}, {"id": 6, "title": "Chapter 9 and Annex C: Raceway Fill", "summary": "Conduit fill, conductor dimensions, raceway dimensions, and practical pulling considerations.", "lessons": [["Conduit Fill Workflow", "Determine conductor area, allowed percentage fill, and raceway internal area using Chapter 9 tables or Annex C.", ["Separate fill compliance from pulling practicality.", "Include grounding conductors in fill.", "Check cable dimensions for multiconductor cables."]], ["Bends and Pulling", "Code limits on bends between pull points do not guarantee a practical pull. Cable size, length, sidewall pressure, and pulling tension still matter.", ["Add pull boxes before difficult bend accumulations.", "Coordinate pulling direction.", "Review manufacturer pulling limits."]]], "exercise": "Select a raceway for three 500 kcmil conductors plus an equipment grounding conductor over a long route with multiple bends.", "quiz": [["Does code-compliant conduit fill guarantee an easy pull?", ["Yes", "No"], 1], ["Are equipment grounding conductors included in raceway fill?", ["Yes", "No"], 0]]}, {"id": 7, "title": "Article 392: Cable Trays", "summary": "Permitted cables, fill, ampacity, supports, bonding, barriers, and transitions.", "lessons": [["Permitted Uses and Fill", "Cable tray is a support system, not automatically a raceway. Cable type, tray type, fill, and separation rules must be checked.", ["Verify every cable type is permitted in tray.", "Apply the correct fill rule for multiconductor or single-conductor cables.", "Coordinate barriers where systems require separation."]], ["Bonding and Grounding", "Tray sections and fittings must provide an effective bonding path or include bonding jumpers where needed.", ["Check splice plate bonding capability.", "Bond expansion joints and discontinuities.", "Do not assume a painted connection is electrically continuous."]], ["Supports and Transitions", "Support spacing and loading depend on tray type and manufacturer ratings.", ["Coordinate tray loading class.", "Add supports near fittings and vertical transitions.", "Review cable drop-out and edge protection."]]], "exercise": "Review a tray carrying 480 V power, instrumentation, and fiber, then propose separation and bonding details.", "quiz": [["Is cable tray always considered a raceway?", ["Yes", "No"], 1], ["Can painted tray joints be assumed to provide reliable bonding?", ["Yes", "No"], 1]]}, {"id": 8, "title": "Article 409: Industrial Control Panels", "summary": "Panel scope, SCCR marking, disconnecting means, and relationship with UL 508A.", "lessons": [["NEC Scope vs UL 508A", "Article 409 establishes installation requirements for industrial control panels. UL 508A addresses construction and certification details.", ["Confirm whether the assembly is an industrial control panel, MCC, switchboard, or other equipment.", "Use the correct standard for the equipment category.", "Do not treat Article 409 as a replacement for UL 508A."]], ["SCCR", "Industrial control panels must be marked with a short-circuit current rating and installed where available fault current does not exceed that rating.", ["Obtain the calculated fault current at the panel.", "Verify marked SCCR on vendor drawings.", "Review feeder protection assumptions used in the SCCR determination."]], ["Disconnecting Means", "A panel may require a disconnecting means based on its application and supply arrangement.", ["Check whether the disconnect is integral or remote.", "Coordinate lockability and visibility requirements.", "Show source and disconnect location clearly."]]], "exercise": "Review a 20 kA SCCR control panel proposed for a location with 42 kA available fault current.", "quiz": [["Can a 20 kA SCCR panel be installed at a 42 kA fault level without an approved mitigation?", ["Yes", "No"], 1], ["Does Article 409 replace UL 508A?", ["Yes", "No"], 1]]}, {"id": 9, "title": "Article 430: Motors, Motor Circuits, and Controllers", "summary": "Motor conductors, short-circuit protection, overload protection, disconnects, controllers, and multi-motor applications.", "lessons": [["Motor Full-Load Current", "For many motor-circuit sizing rules, use NEC table full-load current rather than nameplate current. Nameplate current remains important for overload settings and equipment selection.", ["Distinguish conductor sizing current from overload-setting current.", "Use the correct table for phase and voltage.", "Document assumptions for unusual motors."]], ["Branch-Circuit Components", "Motor circuits combine conductors, short-circuit and ground-fault protection, overload protection, controller, and disconnecting means. Each has a different sizing rule.", ["Do not size all components from one percentage.", "Verify controller horsepower rating.", "Coordinate disconnect location and lockability."]], ["VFD-Fed Motors", "VFD installations must satisfy both NEC motor rules and the drive manufacturer's requirements.", ["Check line and load conductor requirements.", "Review output cable length and reactor or filter needs.", "Confirm branch protection and SCCR."]]], "exercise": "Develop the code-check sequence for a 200 hp, 480 V motor supplied through a VFD.", "quiz": [["For many conductor-sizing calculations, which current is used?", ["NEC table FLC", "Only nameplate FLA"], 0], ["Are overload protection and branch short-circuit protection the same function?", ["Yes", "No"], 1]]}, {"id": 10, "title": "Article 440: HVAC and Refrigeration", "summary": "MCA, MOCP, disconnects, HVAC nameplates, and packaged equipment.", "lessons": [["MCA and MOCP", "For listed HVAC equipment, minimum circuit ampacity and maximum overcurrent protection on the nameplate drive feeder and OCPD selection.", ["Do not recalculate packaged-unit internals like a generic motor feeder.", "Use MCA for conductor ampacity.", "Do not exceed MOCP."]], ["Disconnects", "HVAC equipment generally requires a disconnect within sight and readily accessible.", ["Coordinate rooftop and mechanical-room disconnect locations.", "Check service receptacle and access requirements where applicable.", "Maintain equipment clearances."]]], "exercise": "Select feeder conductors and protection for a packaged rooftop unit using its MCA and MOCP.", "quiz": [["Which value normally determines HVAC conductor ampacity?", ["MCA", "MOCP"], 0], ["Can the OCPD exceed the marked MOCP?", ["Yes", "No"], 1]]}, {"id": 11, "title": "Article 450: Transformers", "summary": "Primary and secondary protection, ventilation, accessibility, grounding, and installation clearances.", "lessons": [["Overcurrent Protection", "Transformer protection depends on voltage, impedance, primary-only or primary-and-secondary protection, and the specific table conditions.", ["Check both transformer protection and conductor protection.", "Do not assume primary protection always protects secondary conductors.", "Coordinate inrush and trip curves."]], ["Ventilation and Location", "Dry-type transformers require suitable ventilation and spacing from combustible material and adjacent equipment.", ["Use manufacturer clearances.", "Account for heat rejection.", "Keep ventilation openings unobstructed."]], ["Secondary System Grounding", "A transformer secondary commonly forms a separately derived system requiring intentional bonding and grounding.", ["Coordinate neutral bonding location.", "Size grounding conductors.", "Avoid duplicate bonds."]]], "exercise": "Review a 45 kVA 480 V to 208Y/120 V transformer feeding a 225 A panelboard.", "quiz": [["Does primary transformer protection automatically protect all secondary conductors?", ["Always", "Not necessarily"], 1], ["Can ventilation openings be blocked by nearby equipment?", ["Yes", "No"], 1]]}, {"id": 12, "title": "Articles 500 to 505: Hazardous Locations", "summary": "Area classification, equipment suitability, seals, wiring methods, and Class/Division versus Zone systems.", "lessons": [["Classification Comes First", "The electrical designer applies the approved area-classification basis. Electrical equipment selection follows the identified class, division or zone, group, and temperature code.", ["Do not independently invent classifications without process input.", "Use the latest area-classification drawings.", "Check normal and abnormal release assumptions."]], ["Equipment and Wiring Methods", "Equipment must be suitable for the exact hazardous-location designation and environment.", ["Check group and temperature code.", "Verify enclosure and certification markings.", "Confirm cable glands and seals are approved for the application."]], ["Sealing", "Seals limit passage of gases, vapors, or flames through raceways and cable systems under defined conditions.", ["Coordinate seal locations on details.", "Respect fill limitations for sealing fittings.", "Do not confuse environmental sealing with explosion seals."]]], "exercise": "Review an instrument and motor installation in a Class I, Division 2 area and identify equipment-marking checks.", "quiz": [["Who normally establishes the process area classification basis?", ["Electrical designer alone", "Qualified multidisciplinary process/facility team"], 1], ["Is a weatherproof gland automatically suitable for a hazardous location?", ["Yes", "No"], 1]]}, {"id": 13, "title": "Articles 700, 701, and 702: Standby and Emergency Systems", "summary": "Emergency, legally required standby, optional standby, transfer equipment, separation, and system reliability.", "lessons": [["System Categories", "Emergency, legally required standby, and optional standby systems have different performance and installation requirements.", ["Identify the system category early.", "Do not use 'emergency' casually on drawings.", "Coordinate loads with the life-safety narrative."]], ["Transfer and Separation", "Transfer equipment and wiring arrangements must support the required system independence and reliability.", ["Check automatic transfer requirements.", "Coordinate physical separation where required.", "Verify source capacity and selective coordination obligations."]]], "exercise": "Classify loads for emergency lighting, smoke-control equipment, and convenience standby receptacles.", "quiz": [["Are optional standby and emergency systems interchangeable terms?", ["Yes", "No"], 1], ["Should system classification be coordinated with the life-safety design?", ["Yes", "No"], 0]]}, {"id": 14, "title": "Services, Feeders, and Load Calculations", "summary": "Articles 210, 215, 220, 225, and 230 for distribution design and load planning.", "lessons": [["Branch Circuits and Feeders", "Separate branch-circuit rules from feeder rules. Apply continuous-load treatment, equipment loads, and applicable demand factors.", ["Document connected, demand, and design loads separately.", "Coordinate spare capacity philosophy.", "Check neutral loading for nonlinear loads."]], ["Services and Outside Feeders", "Service and outside-feeder rules affect disconnecting means, grouping, routing, and equipment ratings.", ["Identify the service point.", "Coordinate service equipment labeling.", "Distinguish service conductors from feeders."]], ["Load Calculations", "Load calculations must reflect the applicable occupancy and equipment rules, not only a blanket diversity percentage.", ["Use code demand factors where applicable.", "Apply engineering diversity only when justified and accepted.", "Keep assumptions traceable."]]], "exercise": "Build a load-summary structure for an industrial building with process, HVAC, lighting, receptacle, and spare loads.", "quiz": [["Are connected load and demand load always equal?", ["Yes", "No"], 1], ["Should diversity assumptions be documented?", ["Yes", "No"], 0]]}, {"id": 15, "title": "Integrated EPC Design Review", "summary": "A complete workflow connecting NEC checks to real EPC deliverables.", "lessons": [["Single-Line Review", "Check voltage, equipment ratings, fault duty, grounding, transformer protection, feeder sizes, and source relationships.", ["Verify every protective-device rating.", "Confirm cable size references.", "Reconcile load list and single-line."]], ["Layout Review", "Check working space, dedicated space, ventilation, access, maintenance paths, cable entries, and future expansion.", ["Dimension critical clearances.", "Coordinate with piping, HVAC, and structure.", "Check equipment replacement path."]], ["Cable and Raceway Review", "Check ampacity, derating, voltage drop, fill, pulling, grounding, separation, and environmental suitability.", ["Review longest and largest feeders first.", "Check transition details.", "Confirm tray and conduit support strategy."]], ["Vendor Package Review", "Check compliance with project specifications, NEC, listing instructions, SCCR, drawings, and interface data.", ["Use a repeatable checklist.", "Separate code issues from preferences.", "Track open technical deviations."]]], "exercise": "Perform a full code-oriented review of a small industrial electrical package containing a one-line, equipment layout, cable schedule, and vendor VFD drawing.", "quiz": [["Which deliverable should be reconciled with the single-line?", ["Load list and cable schedule", "Only architectural plan"], 0], ["Should code issues and client preferences be identified separately?", ["Yes", "No"], 0], ["Is equipment replacement access part of good EPC layout practice?", ["Yes", "No"], 0]]}];
+let current = Number(localStorage.getItem('necCurrentModule') || 1);
+let completed = JSON.parse(localStorage.getItem('necCompleted') || '[]');
+
+function save() {
+  localStorage.setItem('necCurrentModule', current);
+  localStorage.setItem('necCompleted', JSON.stringify(completed));
+}
+
+function renderSidebar() {
+  const list = document.getElementById('moduleList');
+  list.innerHTML = '';
+  modules.forEach(m => {
+    const b = document.createElement('button');
+    b.className = 'module-btn' + (m.id === current ? ' active' : '');
+    b.innerHTML = `<strong>${m.id}. ${m.title}</strong><small>${completed.includes(m.id) ? 'Completed' : 'Not completed'}</small>`;
+    b.onclick = () => { current = m.id; save(); render(); };
+    list.appendChild(b);
+  });
+  document.getElementById('progressFill').style.width = `${(completed.length/modules.length)*100}%`;
+  document.getElementById('progressText').textContent = `${completed.length} of ${modules.length} modules completed`;
+}
+
+function render() {
+  renderSidebar();
+  const m = modules.find(x => x.id === current);
+  const lessons = m.lessons.map((l, i) => `
+    <div class="lesson">
+      <h3>Lesson ${i+1}: ${l[0]}</h3>
+      <p>${l[1]}</p>
+      <ul class="checklist">${l[2].map(x => `<li>${x}</li>`).join('')}</ul>
+    </div>`).join('');
+
+  const quiz = m.quiz.map((q, qi) => `
+    <div class="quiz-question">
+      <strong>${qi+1}. ${q[0]}</strong>
+      ${q[1].map((a, ai) => `<label><input type="radio" name="q${qi}" value="${ai}"> ${a}</label>`).join('')}
+    </div>`).join('');
+
+  document.getElementById('content').innerHTML = `
+    <div class="card">
+      <div class="badge">Module ${m.id} of ${modules.length}</div>
+      <h2>${m.title}</h2>
+      <p class="muted">${m.summary}</p>
+    </div>
+    <div class="card">
+      <h2>Lessons</h2>
+      ${lessons}
+    </div>
+    <div class="card lesson exercise">
+      <h3>Design Exercise</h3>
+      <p>${m.exercise}</p>
+    </div>
+    <div class="card">
+      <h2>Knowledge Check</h2>
+      ${quiz}
+      <button class="action" onclick="gradeQuiz()">Grade Quiz</button>
+      <button class="action secondary" onclick="toggleComplete()">${completed.includes(m.id) ? 'Mark Incomplete' : 'Mark Complete'}</button>
+      <div id="quizResult" class="result"></div>
+    </div>`;
+  window.scrollTo(0,0);
+}
+
+function gradeQuiz() {
+  const m = modules.find(x => x.id === current);
+  let correct = 0;
+  let answered = 0;
+  m.quiz.forEach((q, qi) => {
+    const selected = document.querySelector(`input[name="q${qi}"]:checked`);
+    if (selected) {
+      answered++;
+      if (Number(selected.value) === q[2]) correct++;
+    }
+  });
+  const r = document.getElementById('quizResult');
+  r.textContent = `${correct} correct out of ${m.quiz.length}. ${answered < m.quiz.length ? 'Complete all questions for a full score.' : ''}`;
+}
+
+function toggleComplete() {
+  if (completed.includes(current)) completed = completed.filter(x => x !== current);
+  else completed.push(current);
+  save(); render();
+}
+
+render();
+</script>
+</body>
+</html>
